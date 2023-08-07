@@ -1,4 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
+import bg from '../images/wallpaperflare.com_wallpaper.webp';
 
 export const GlobalStyle = createGlobalStyle`
 html {
@@ -6,7 +7,13 @@ html {
   scroll-behavior: smooth;
 }
 body {
-  background: ${({ theme }) => theme.colors.backgroundColorMain};
+  background: url(${bg});
+  background-repeat: no-repeat;
+  background-position: center; 
+  background-size: cover; 
+  background-color: ${({ theme }) => theme.colors.backgroundColorDark};
+
+  
   min-height: 100vh;
   margin: 0;
 

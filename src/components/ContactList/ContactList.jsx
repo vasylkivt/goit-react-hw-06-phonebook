@@ -1,42 +1,20 @@
-import PropTypes from 'prop-types';
+import { List, ListWrap } from './ContactList.style';
+import { ContactItem } from 'components';
 
-import {
-  Button,
-  Contact,
-  DeleteIcon,
-  List,
-  Text,
-  TextWrap,
-} from './ContactList.style';
+import { useSelector } from 'react-redux';
+import { selectVisibleContacts } from 'redux/selectors';
 
-export function ContactList({ contacts, onRemoveContact, children }) {
+export const ContactList = ({ children }) => {
+  const visibleContacts = useSelector(selectVisibleContacts);
+
   return (
-    <>
+    <ListWrap>
+      {children}
       <List>
-        {contacts.map(({ name, number, id }) => (
-          <Contact key={id}>
-            <TextWrap>
-              <Text>{name}</Text>
-              <Text>{number}</Text>
-            </TextWrap>
-            <Button onClick={() => onRemoveContact(id)} type="button">
-              <DeleteIcon />
-            </Button>
-          </Contact>
+        {visibleContacts.map(contact => (
+          <ContactItem contact={contact} key={contact.id} />
         ))}
       </List>
-      {children}
-    </>
+    </ListWrap>
   );
-}
-
-ContactList.propTypes = {
-  contacts: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      number: PropTypes.string.isRequired,
-      id: PropTypes.string.isRequired,
-    }).isRequired
-  ).isRequired,
-  onRemoveContact: PropTypes.func.isRequired,
 };

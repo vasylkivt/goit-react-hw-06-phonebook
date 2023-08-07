@@ -4,8 +4,11 @@ export const toastOptions = {
   // Define default options
 
   style: {
-    background: `${theme.colors.backgroundColorSection}`,
-    color: `${theme.colors.textColorDark}`,
+    background: 'transparent',
+    border: '2px solid rgba(255, 255, 255, 0.5)',
+    borderRadius: '20px',
+    backdropFilter: 'blur(15px)',
+    color: `${theme.colors.white}`,
   },
 
   // Default options for specific types

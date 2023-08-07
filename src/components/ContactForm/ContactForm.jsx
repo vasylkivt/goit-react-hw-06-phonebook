@@ -1,79 +1,79 @@
-import React, { useRef } from 'react';
-import PropTypes from 'prop-types';
-
-import { nanoid } from 'nanoid';
 import { Formik } from 'formik';
 import {
-  ButtonSubmit,
   Form,
   Input,
-  InputName,
+  InputLabel,
+  InputWrap,
   PersonIcon,
   TelephoneIcon,
 } from './ContactForm.style';
+import { Button } from 'components';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from 'redux/contactsSlice';
+import { nanoid } from '@reduxjs/toolkit';
+import { toast } from 'react-hot-toast';
+import { selectContacts } from 'redux/selectors';
 
-export const ContactForm = ({ onSubmit, children }) => {
-  const nameInputId = nanoid();
-  const numberInputId = nanoid();
+export const ContactForm = () => {
+  const dispatch = useDispatch();
+  const contactList = useSelector(selectContacts);
 
-  const inputNameRef = useRef();
+  const onSubmit = (formData, action) => {
+    console.log('action:', action);
+    if (
+      contactList.find(
+        ({ name }) => name.toLowerCase() === formData.name.toLowerCase()
+      )
+    ) {
+      toast.error(`${formData.name}  is already in contacts. `);
+      return;
+    }
+    if (contactList.find(({ number }) => number === formData.number)) {
+      toast.error(`Number "${formData.number}" is already in contacts. `);
+      return;
+    }
+    dispatch(addContact({ ...formData, id: nanoid() }));
+
+    action.resetForm();
+  };
 
   return (
     <>
-      {children}
       <Formik
         initialValues={{
           name: '',
           number: '',
         }}
-        onSubmit={(values, actions) => {
-          inputNameRef.current.focus();
-
-          onSubmit({ ...values, id: nanoid() }, actions);
-        }}
+        onSubmit={onSubmit}
       >
         <Form>
-          <InputName htmlFor={nameInputId}>
+          <InputWrap>
             <PersonIcon />
-
-            {
-              <Input
-                innerRef={el => {
-                  inputNameRef.current = el;
-                }}
-                autoComplete="off"
-                placeholder="Enter contact name"
-                id={nameInputId}
-                type="text"
-                name="name"
-                pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-                title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-                required
-              />
-            }
-          </InputName>
-
-          <InputName htmlFor={numberInputId}>
+            <Input
+              autoComplete="off"
+              type="text"
+              name="name"
+              pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+              title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+              required
+            />
+            <InputLabel>Name</InputLabel>
+          </InputWrap>
+          <InputWrap>
             <TelephoneIcon />
             <Input
               autoComplete="off"
-              placeholder="Enter phone number"
-              id={numberInputId}
               type="tel"
               name="number"
               pattern="\+?\d{1,4}?[ .\-\s]?\(?\d{1,3}?\)?[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,4}[ .\-\s]?\d{1,9}"
               title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
               required
             />
-          </InputName>
-
-          <ButtonSubmit type="submit">Add contact</ButtonSubmit>
+            <InputLabel>Number</InputLabel>
+          </InputWrap>
+          <Button type="submit">Add contact</Button>
         </Form>
       </Formik>
     </>
   );
-};
-
-ContactForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
 };

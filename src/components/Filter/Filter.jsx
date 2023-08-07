@@ -1,20 +1,26 @@
-import PropTypes from 'prop-types';
-import { Input } from './Filter.style';
+import { setFilter } from 'redux/filterSlice';
+import { Input, InputLabel, InputWrap, SearchIcon } from './Filter.style';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectFilterValue } from 'redux/selectors';
 
-export function Filter({ value, onChange }) {
+export function Filter() {
+  const value = useSelector(selectFilterValue);
+  const dispatch = useDispatch();
+
+  const onChange = ({ target: { value } }) => dispatch(setFilter(value));
+
   return (
-    <>
+    <InputWrap>
+      <SearchIcon />
       <Input
-        placeholder="Find contacts"
-        onChange={onChange}
+        minLength={2}
+        debounceTimeout={300}
         value={value}
+        onChange={onChange}
         type="text"
+        required
       />
-    </>
+      <InputLabel>Find contacts</InputLabel>
+    </InputWrap>
   );
 }
-
-Filter.propTypes = {
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-};

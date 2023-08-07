@@ -1,35 +1,46 @@
 import styled from 'styled-components';
+import { BsSearch } from 'react-icons/bs';
+import { DebounceInput } from 'react-debounce-input';
 
-export const Input = styled.input`
+export const InputWrap = styled.div`
   position: relative;
-  margin-bottom: ${({ theme }) => theme.spacing(10)};
+  margin: 30px 0;
+  width: 310px;
+  border-bottom: 2px solid #fff;
+`;
+export const InputLabel = styled.label`
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  transform: translateY(-50%);
+  color: #fff;
+  font-size: 1em;
+  pointer-events: none;
+  transition: 0.5s;
+`;
+
+export const Input = styled(DebounceInput)`
   width: 100%;
-  max-width: ${({ theme }) => theme.spacing(75)};
-
-  padding-top: ${({ theme }) => theme.spacing(4)};
-  padding-bottom: ${({ theme }) => theme.spacing(4)};
-  padding-left: ${({ theme }) => theme.spacing(5)};
-  padding-right: ${({ theme }) => theme.spacing(5)};
-
-  appearance: none;
+  height: 50px;
+  background: transparent;
   border: none;
   outline: none;
-  border-bottom: 3px solid ${({ theme }) => theme.colors.accent};
-  background-color: ${({ theme }) => theme.colors.backgroundColorInput}10;
-  border-radius: 5px 5px 0 0;
+  font-size: 1em;
+  padding: 0 35px 0 5px;
+  color: #fff;
 
-  color: ${({ theme }) => theme.colors.textColorDark};
-  font-weight: 500;
-  font-size: ${({ theme }) => theme.fontSizes.large};
-
-  transition: all ${({ theme }) => theme.animation.cubicBezier};
-
-  &:focus,
-  &:hover {
-    background-color: ${({ theme }) => theme.colors.backgroundColorInput}30;
-    border-radius: 5px;
-    z-index: 1;
-    border-color: transparent;
-    box-shadow: 0px 0px 10px 0px ${({ theme }) => theme.colors.textColorDark};
+  &:focus ~ label,
+  &:valid ~ label {
+    top: -5px;
   }
+`;
+
+export const SearchIcon = styled(BsSearch)`
+  fill: ${({ theme }) => theme.colors.accent};
+
+  position: absolute;
+  right: 8px;
+
+  font-size: 1.2em;
+  top: 20px;
 `;
