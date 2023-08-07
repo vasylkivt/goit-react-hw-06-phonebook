@@ -4,7 +4,7 @@ export const toastOptions = {
   // Define default options
 
   style: {
-    background: 'transparent',
+    background: `#00000037`,
     border: '2px solid rgba(255, 255, 255, 0.5)',
     borderRadius: '20px',
     backdropFilter: 'blur(15px)',
