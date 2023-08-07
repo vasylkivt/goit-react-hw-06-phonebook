@@ -46,6 +46,7 @@ export const Input = styled(Field)`
   color: #fff;
 
   &:focus ~ label,
+  &:invalid ~ label,
   &:valid ~ label {
     top: -5px;
   }
