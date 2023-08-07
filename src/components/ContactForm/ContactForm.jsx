@@ -13,13 +13,15 @@ import { addContact } from 'redux/contactsSlice';
 import { nanoid } from '@reduxjs/toolkit';
 import { toast } from 'react-hot-toast';
 import { selectContacts } from 'redux/selectors';
+import { useRef } from 'react';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
   const contactList = useSelector(selectContacts);
 
+  const inputNameRef = useRef();
+
   const onSubmit = (formData, action) => {
-    console.log('action:', action);
     if (
       contactList.find(
         ({ name }) => name.toLowerCase() === formData.name.toLowerCase()
@@ -32,9 +34,12 @@ export const ContactForm = () => {
       toast.error(`Number "${formData.number}" is already in contacts. `);
       return;
     }
+
+    toast.success(`${formData.name} added to your contact list.`);
     dispatch(addContact({ ...formData, id: nanoid() }));
 
     action.resetForm();
+    inputNameRef.current.focus();
   };
 
   return (
@@ -50,6 +55,9 @@ export const ContactForm = () => {
           <InputWrap>
             <PersonIcon />
             <Input
+              innerRef={el => {
+                inputNameRef.current = el;
+              }}
               autoComplete="off"
               type="text"
               name="name"
