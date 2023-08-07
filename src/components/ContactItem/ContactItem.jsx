@@ -3,8 +3,7 @@ import { useDispatch } from 'react-redux';
 import { toast } from 'react-hot-toast';
 import { AiOutlineDelete } from 'react-icons/ai';
 
-import { Button } from 'components';
-import { Item, Text, TextWrap } from './ContactItem.style';
+import { ButtonDel, Item, Text, TextWrap } from './ContactItem.style';
 import { deleteContact } from 'redux/contactsSlice';
 
 export const ContactItem = ({ contact: { id, name, number } }) => {
@@ -22,9 +21,9 @@ export const ContactItem = ({ contact: { id, name, number } }) => {
           <Text>{name}</Text>
           <Text>{number}</Text>
         </TextWrap>
-        <Button $colorHover={'red'} onClick={handlerDeleteBtn} type="button">
+        <ButtonDel onClick={handlerDeleteBtn} type="button">
           <AiOutlineDelete />
-        </Button>
+        </ButtonDel>
       </Item>
     </>
   );

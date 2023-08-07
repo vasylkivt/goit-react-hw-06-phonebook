@@ -14,7 +14,6 @@ export const Button = styled.button`
   transition: background 250ms ease-in-out;
 
   &:hover {
-    background: ${({ $colorHover, theme }) =>
-      $colorHover ? theme.colors[$colorHover] : theme.colors.accent};
+    background: ${({ theme }) => theme.colors.accent};
   }
 `;
